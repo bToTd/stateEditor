@@ -16,21 +16,23 @@
 </template>
 
 <script>
-import go from '../../../static/go';
+import go from '../../../static/go-debug';
 import data from '../../../static/stateModel.json'
 export default {
   name: "State",
   created: function () {
-    console.log(go);
     this.stateModel = data;
+    this.nodeCount = data.nodeDataArray.length;
   },
   data () {
     return {
       stateModel: {},
-      myDiagrom: {}
+      myDiagrom: {},
+      nodeCount: 0,
     }
   },
   mounted(){
+    console.log("状态机开始");
     this.init();
   },
   methods:{
@@ -107,6 +109,8 @@ export default {
         var fromData = fromNode.data;
         // create a new "State" data object, positioned off to the right of the adorned Node
         var toData = { text: "new" };
+        toData.id = self.nodeCount;
+        self.nodeCount++;
         var p = fromNode.location.copy();
         p.x += 200;
         toData.loc = go.Point.stringify(p);  // the "loc" property is a string, not a Point object
